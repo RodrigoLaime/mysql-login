@@ -11,3 +11,8 @@
  timeago.js //permite manejas las fechas
  connect-flash //para enviar mensaje entre multiples vistas
  express-validator //valida los datos que nos envia el usuario
+ 
+## falto
+npm i passport-local
+
+hora 2: 42

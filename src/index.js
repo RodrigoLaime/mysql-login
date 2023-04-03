@@ -1,11 +1,19 @@
 const express = require('express');
 const morgan = require('morgan');
-const { engine } = require('express-handlebars');
 const path = require('path');
+const { engine } = require('express-handlebars');
+const flash = require('connect-flash');
+
+//sesion
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const { database } = require('./keys');
+
+const passport = require('passport');
 
 //initializations
-
 const app = express();
+require('./lib/passport')
 
 //setting
 app.set('port', process.env.PORT || 4000)
@@ -21,14 +29,31 @@ app.engine('.hbs', engine({
 app.set('view engine', '.hbs');
 
 //middlewares
+//-middleware que guarda las sesiones en el servidor o en la db
+app.use(session({
+  secret: 'faztmysqlnodesession',
+  resave: false,
+  saveUninitialized: false,
+  store: new MySQLStore(database),
+}));
+//-midleware para enviar mensages a treavez de distintas vistas
+app.use(flash());
+
 app.use(morgan('dev'));
-//para haceptar los datos desde el formulario, datos en string
+//-para haceptar los datos desde el formulario, datos en string
 app.use(express.urlencoded({ extended: false }));
-// haceptar datos en formato json
+//-haceptar datos en formato json
 app.use(express.json());
+
+//-iniciar password
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 //global variables
 app.use((req, res, next) => {
+  // toma el menssage agregado y lo hace disponible en todas mis vistas
+  app.locals.success = req.flash('success');
   next();
 });
 
