@@ -49,12 +49,13 @@ app.use(express.json());
 app.use(passport.initialize())
 app.use(passport.session())
 
-
 //global variables
 app.use((req, res, next) => {
-  // toma el menssage agregado y lo hace disponible en todas mis vistas
+  // toma el menssage agregado y lo hace disponible en todas mis vistas, puede ser accedido desde todas las vistas
   app.locals.success = req.flash('success');
   app.locals.message = req.flash('message');
+  //obtener datos de profile y hacerlo publico en las vistas
+  app.locals.user = req.user;
   next();
 });
 
@@ -68,5 +69,6 @@ app.use(express.static(path.join(__dirname, './public')));
 //starting the server
 app.listen(app.get('port'), () => {
   console.log('Server on port', app.get('port'))
-})
+});
+
 /* https://www.youtube.com/watch?v=qJ5R9WTW0_E&t=253s */

@@ -12,9 +12,10 @@
  connect-flash //para enviar mensaje entre multiples vistas
  express-validator //valida los datos que nos envia el usuario
  
-## falto
+## falto instalar
 npm i passport-local
 
-hora 2: 42
 
+en el caso de que no te tome el root o la contrasaña en mysql agregar 
 <!-- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_current_password'; -->
+esto cambia la contraseña de mysql
