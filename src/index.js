@@ -54,6 +54,7 @@ app.use(passport.session())
 app.use((req, res, next) => {
   // toma el menssage agregado y lo hace disponible en todas mis vistas
   app.locals.success = req.flash('success');
+  app.locals.message = req.flash('message');
   next();
 });
 
