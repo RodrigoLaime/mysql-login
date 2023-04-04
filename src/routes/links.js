@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+/* const pool = require('../database'); */
 
 //connecion a la base de datos
 const pool = require('../database')
@@ -10,6 +11,18 @@ const { isLoggedIn } = require('../lib/auth');
 router.get('/add', isLoggedIn, (req, res) => {
   res.render('../views/links/add.hbs')
 });
+
+
+//ejemplo de consulta get que devuelve un json()
+router.get('/data', async (req, res) => {
+  const sql = 'SELECT * FROM links';
+  await pool.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.json(result);
+  });
+})
 
 //CREAR
 router.post('/add', isLoggedIn, async (req, res) => {
