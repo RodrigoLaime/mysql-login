@@ -23,6 +23,17 @@ router.get('/data', async (req, res) => {
     res.json(result);
   });
 })
+//para ver los links relacionados con un usuario
+router.get('/linkss/:id', async (req, res) => {
+  const id = req.params.id;
+  const sql = 'SELECT links.*, users.username AS nombre_usuario, users.password AS password_usuario FROM links JOIN users ON links.user_id = users.id WHERE links.user_id = ?';
+  await pool.query(sql, id, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.json(result);
+  });
+})
 
 //CREAR
 router.post('/add', isLoggedIn, async (req, res) => {
